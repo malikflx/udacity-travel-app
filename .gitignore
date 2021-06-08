@@ -1,0 +1,11 @@
+# Package Directories
+/node_modules
+
+# DS Store
+/.DS_Store
+
+#Folders
+/dist
+
+#Config
+.env
