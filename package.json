@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "copy-webpack-plugin": "^9.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -20,7 +21,9 @@
     "node-fetch": "^2.6.1",
     "npm": "^7.16.0",
     "webpack": "^5.38.1",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "webpack-merge": "^5.8.0",
+    "workbox-webpack-plugin": "^6.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
