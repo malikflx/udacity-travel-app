@@ -1,35 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Malik Felix | Travel App</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel App</title>
+  <link rel="stylesheet" href="styles/resets.scss">
+  <link rel="stylesheet" href="styles/header.scss">
+  <link rel="stylesheet" href="styles/base.scss">
+  <link rel="stylesheet" href="styles/footer.scss">
 </head>
 
 <body>
-  <header>
-    <h1 class="header-title">Travel App</h1>
-  </header>
-  <div class="main-content">
-    <form id="trip-content" class="trip-form">
-      <div class="trip-field">
-        <label for="form-title">Add Your Trip</label>
-        <input id="form-title" type="text" placeholder="Add trip location here">
+  <h1>Welcome to the Travel App!</h1>
+
+  <main>
+    <div id="clock">The Countdown begins</div>
+    <section>
+      <div id="myForm" class="" onsubmit="return Client.handleSubmit(event)">
+        <h1>Enter City Name below!</h1>
+        <input id="city_input" type="text" name="input" value="" placeholder="Example: Brooklyn, NY">
+        <span><input id="generate" type="submit" name="" value="Submit"
+            onclick="return Client.handleSubmit(event)"></span>
       </div>
-      <div class="trip-field">
-        <label for="trip-date">Trip Start Date</label>
-        <input id="trip-date" name="trip-date" type="date">
+      <br>
+      <div id="time">
+        <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
+        <input id="time-submit" type="submit" value="Submit">
       </div>
-      <div class="trip-field">
-        <label for="end-date">Trip End Date</label>
-        <input id="end-date" name="end-date" type="date">
-      </div>
-      <button type="submit" class="submit button">Submit</button>
-    </form>
-    <div class="error"></div>
-  </div>
+    </section>
+
+    <section id="results">
+      <div id="latitude"></div>
+      <div id="longitude"></div>
+      <div id="country"></div>
+      <div id="weather"></div>
+    </section>
+  </main>
 </body>
 
 </html>
