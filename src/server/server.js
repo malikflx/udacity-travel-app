@@ -24,6 +24,7 @@ app.get('/', function (req, res) {
   res.sendFile('dist/index.html')
 });
 
+// Create endpoint for API POST data
 app.post('/destination', function (req, res) {
   const geoBaseURL = 'http://api.geonames.org/searchJSON?q=';
   const geoNamesKey = process.env.GEONAMES_API_KEY;
@@ -43,7 +44,7 @@ app.post('/destination', function (req, res) {
   }).then((data) => {
     console.log("Response from GeoNames (server-side)", data);
     res.send({
-      geonames: data.geonames[0]
+      geonames: data.geonames[0] // Returns location data
     })
   })
   // const forcastWeatherURL = `https://api.weatherbit.io/v2.0/forcasts/daily?lat=${data.geonames.lat}&lon=${data.geonames.lng}&key=${weatherKey}`;
