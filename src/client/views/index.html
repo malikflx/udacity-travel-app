@@ -6,11 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel App</title>
-  <link rel="stylesheet" href="styles/resets.scss">
-  <link rel="stylesheet" href="styles/header.scss">
-  <link rel="stylesheet" href="styles/base.scss">
-  <link rel="stylesheet" href="styles/footer.scss">
-  <link rel="stylesheet" href="styles/results.scss">
+  <link rel="shortcut icon" href="#">
 </head>
 
 <body>
@@ -23,13 +19,12 @@
 
   <main>
     <section>
-      <form id="myForm" class="" onsubmit="return Client.handleSubmit(event)">
+      <form id="myForm" class="">
         <h1>Enter City Name Below!</h1>
         <input id="city_input" type="text" name="input" value="" placeholder="Example: Brooklyn, NY">
         <br />
         <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
-        <span><input id="generate" type="submit" name="" value="Submit"
-            onclick="return Client.handleSubmit(event)"></span>
+        <span><input id="generate" type="submit" name="" value="Submit"></span>
       </form>
     </section>
 
@@ -56,7 +51,7 @@
   <footer>
     <p>&copy; 2021 Malik Felix. All Rights Reserved.</p>
   </footer>
-  <script>
+  <!-- <script>
     // Check that service workers are supported
     if ('serviceWorker' in navigator) {
       // Use the window load event to keep the page load performant
@@ -64,7 +59,12 @@
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
-  </script>
+  </script> -->
+
+  <!-- stuff 
+    onsubmit="return Client.handleSubmit(event)"
+    onclick="return Client.handleSubmit(event)"
+  -->
 </body>
 
 </html>

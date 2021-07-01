@@ -10,4 +10,9 @@ import './styles/footer.scss'
 import './styles/results.scss'
 import './styles/form.scss'
 
+document.addEventListener('DOMContentLoaded', () => {
+  let btn = document.getElementById('generate');
+  btn.addEventListener('click', handleSubmit)
+});
+
 export { handleSubmit, checkUrl }

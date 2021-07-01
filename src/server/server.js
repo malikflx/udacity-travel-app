@@ -4,9 +4,12 @@ dotenv.config();
 /* Dependencies */
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const request = require('supertest');
 const express = require('express');
 const fetch = require('node-fetch');
 const path = require('path');
+// Resove regeneratornRuntime error when using SuperTest
+require('babel-polyfill');
 // Express to run server and routes
 const { response } = require('express');
 
@@ -31,6 +34,13 @@ app.use(express.static('dist'));
 app.get('/', function (req, res) {
   res.sendFile('dist/index.html')
 });
+
+// server test route
+app.get('/test', function (req, res) {
+  res.json({
+    status: 200
+  })
+})
 
 // Create endpoint for API POST data
 app.post('/destination', async (req, res) => {
@@ -141,3 +151,11 @@ app.post('/destination', async (req, res) => {
   // Package data to be sent to server
   res.send(data);
 });
+
+request(app)
+  .get('/')
+  .expect(200)
+  .end(function (error, response) {
+    if (error) throw error;
+  });
+module.exports = app;
