@@ -1,5 +1,6 @@
 import { handleSubmit } from './js/formHandler';
 // import { countdown } from './js/countdown';
+import { checkUrl } from './js/urlChecker';
 
 // Sass
 import './styles/resets.scss'
@@ -9,4 +10,4 @@ import './styles/footer.scss'
 import './styles/results.scss'
 import './styles/form.scss'
 
-export { handleSubmit }
+export { handleSubmit, checkUrl }

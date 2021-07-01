@@ -31,11 +31,6 @@
         <span><input id="generate" type="submit" name="" value="Submit"
             onclick="return Client.handleSubmit(event)"></span>
       </form>
-      <!-- <br>
-      <div id="time">
-        <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
-        <input id="time-submit" type="submit" value="Submit">
-      </div> -->
     </section>
 
     <section id="results">
@@ -61,6 +56,15 @@
   <footer>
     <p>&copy; 2021 Malik Felix. All Rights Reserved.</p>
   </footer>
+  <script>
+    // Check that service workers are supported
+    if ('serviceWorker' in navigator) {
+      // Use the window load event to keep the page load performant
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+  </script>
 </body>
 
 </html>
