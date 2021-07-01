@@ -1,0 +1,10 @@
+$accent: #e26058;
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $accent;
+  color: #fff;
+  padding: 1em;
+}

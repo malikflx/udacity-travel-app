@@ -10,22 +10,27 @@
   <link rel="stylesheet" href="styles/header.scss">
   <link rel="stylesheet" href="styles/base.scss">
   <link rel="stylesheet" href="styles/footer.scss">
+  <link rel="stylesheet" href="styles/results.scss">
 </head>
 
 <body>
-  <h1>Welcome to the Travel App!</h1>
+  <header>
+    <div class="">
+      Travel App
+    </div>
+  </header>
+  <h1 class="greeting">Welcome to the Travel App!</h1>
 
   <main>
-    <div id="clock">The Countdown begins</div>
     <section>
-      <div id="myForm" class="" onsubmit="return Client.handleSubmit(event)">
+      <form id="myForm" class="" onsubmit="return Client.handleSubmit(event)">
         <h1>Enter City Name below!</h1>
         <input id="city_input" type="text" name="input" value="" placeholder="Example: Brooklyn, NY">
         <br />
         <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
         <span><input id="generate" type="submit" name="" value="Submit"
             onclick="return Client.handleSubmit(event)"></span>
-      </div>
+      </form>
       <!-- <br>
       <div id="time">
         <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
@@ -34,13 +39,22 @@
     </section>
 
     <section id="results">
-      <div id="latitude"></div>
-      <div id="longitude"></div>
-      <div id="country"></div>
-      <div id="weather"></div>
+      <h1 id="results-title">Trip Results</h1>
+      <div id="clock">The Countdown Begins</div>
+      <div id="clock-result"></div>
       <div id="image"></div>
+      <div class="style-result">
+        <div id="latitude"></div>
+        <div id="longitude"></div>
+        <div id="country"></div>
+        <div id="weather"></div>
+      </div>
+
     </section>
   </main>
+  <footer>
+    <p>&copy; 2021 Malik Felix. All Rights Reserved.</p>
+  </footer>
 </body>
 
 </html>

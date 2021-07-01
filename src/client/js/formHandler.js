@@ -20,8 +20,8 @@ function handleSubmit(e) {
       document.getElementById('latitude').innerHTML = `Latitude: ${res.lat}`;
       document.getElementById('longitude').innerHTML = `Longitude: ${res.lng}`;
       document.getElementById('country').innerHTML = `Country: ${res.countryName}`;
-      document.getElementById('weather').innerHTML = `Weather: ${res.currentWeather.temp}`;
-      document.getElementById('image').innerHTML = `Location: ${res.imageUrl}`;
+      document.getElementById('weather').innerHTML = `Weather: ${res.currentWeather.temp}&deg; Celsius`;
+      // document.getElementById('image').innerHTML = `Location: ${res.imageUrl}`;
       document.getElementById('image').style.backgroundImage = `url(${res.imageUrl})`;
     })
   let n = setInterval(function () {
@@ -36,11 +36,11 @@ function handleSubmit(e) {
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById('clock').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    document.getElementById('clock-result').innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
     if (distance < 0) {
       clearInterval(n);
-      document.getElementById('clock').innerHTML = "Countdown is Over!"
+      document.getElementById('clock-result').innerHTML = "Countdown is Over!"
     }
   }, 1000);
 
