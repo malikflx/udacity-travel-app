@@ -65,7 +65,7 @@ app.post('/destination', async (req, res) => {
       }
     }).catch(error => console.log('error', error));
 
-
+  // API to get current weather
   const currentWeatherUrl = `https://api.weatherbit.io/v2.0/current?lat=${data.lat}&lon=${data.lng}&key=${weatherKey}`;
 
   await fetch(currentWeatherUrl, {
@@ -77,17 +77,35 @@ app.post('/destination', async (req, res) => {
     .then(response => response.json())
     .then(response => {
       console.log('response from WeatherBit (server-side)', response)
-      const { temp, percip } = response.data[0];
+      const { temp, precip } = response.data[0];
       data = {
         ...data,
         currentWeather: {
           temp,
-          percip
+          precip
         }
       }
     }).catch(error => console.log('error', error));
 
+  // Get forcased weather using weatherBit API
+  const forcastWeatherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${data.lat}&lon=${data.lng}&key=${weatherKey}`;
 
+  await fetch(forcastWeatherUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/JSON',
+    }
+  })
+    .then(response => response.json())
+    .then(response => {
+      console.log('forecast response from WeatherBit (server-side)', response)
+      data = {
+        ...data, // use spread operator to pull in prior data
+        forecastWeather: response.data[0]
+      }
+    }).catch(error => console.log('error', error));
+
+  // Set up parameters for pixabay API endpoints
   const pixabayCitySearch = `&q=${data.cityName}&orientation=horizontal&image_type=photo`;
   const pixabayCountrySearch = `&q=${data.countryName}&orientation=horizontal&image_type=photo`
   let pixabayUrl = `https://pixabay.com/api/?key=${pixabayKey}${pixabayCitySearch}`;
@@ -105,6 +123,7 @@ app.post('/destination', async (req, res) => {
       imageUrl = response.hits[0].webformatURL;
     }).catch(error => console.log('error', error));
 
+  // Detects when no city image is available. if none, search for country image instead
   if (imageUrl === '') {
     let pixabayUrl = `https://pixabay.com/api/?key=${pixabayKey}${pixabayCountrySearch}`;
     await fetch(pixabayUrl)
@@ -119,5 +138,6 @@ app.post('/destination', async (req, res) => {
     ...data,
     imageUrl
   }
+  // Package data to be sent to server
   res.send(data);
 });

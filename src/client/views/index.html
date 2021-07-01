@@ -24,7 +24,7 @@
   <main>
     <section>
       <form id="myForm" class="" onsubmit="return Client.handleSubmit(event)">
-        <h1>Enter City Name below!</h1>
+        <h1>Enter City Name Below!</h1>
         <input id="city_input" type="text" name="input" value="" placeholder="Example: Brooklyn, NY">
         <br />
         <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
@@ -39,15 +39,21 @@
     </section>
 
     <section id="results">
-      <h1 id="results-title">Trip Results</h1>
+      <h1 id="results-title">Trip Details | <span class="title-small">Enjoy your stay!</span> </h1>
       <div id="clock">The Countdown Begins</div>
       <div id="clock-result"></div>
       <div id="image"></div>
       <div class="style-result">
-        <div id="latitude"></div>
-        <div id="longitude"></div>
-        <div id="country"></div>
-        <div id="weather"></div>
+        <div class="block-one">
+          <div id="latitude"></div>
+          <div id="longitude"></div>
+          <div id="country"></div>
+        </div>
+        <div class="block-two">
+          <div id="weather"></div>
+          <div id="precipitation"></div>
+          <div id="forecast"></div>
+        </div>
       </div>
 
     </section>
