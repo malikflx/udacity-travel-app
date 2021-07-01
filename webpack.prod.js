@@ -51,6 +51,6 @@ module.exports = {
       filename: "./index.html",
     }),
     new MiniCssExtractPlugin({ filename: "[name].css" }),
-    // new WorkboxPlugin.GenerateSW()
+    new WorkboxPlugin.GenerateSW()
   ],
 }
