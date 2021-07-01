@@ -21,14 +21,16 @@
       <div id="myForm" class="" onsubmit="return Client.handleSubmit(event)">
         <h1>Enter City Name below!</h1>
         <input id="city_input" type="text" name="input" value="" placeholder="Example: Brooklyn, NY">
+        <br />
+        <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
         <span><input id="generate" type="submit" name="" value="Submit"
             onclick="return Client.handleSubmit(event)"></span>
       </div>
-      <br>
+      <!-- <br>
       <div id="time">
         <input id="trip-date" type="text" name="trip-start" placeholder="mm/dd/yyyy">
         <input id="time-submit" type="submit" value="Submit">
-      </div>
+      </div> -->
     </section>
 
     <section id="results">
@@ -36,6 +38,7 @@
       <div id="longitude"></div>
       <div id="country"></div>
       <div id="weather"></div>
+      <div id="image"></div>
     </section>
   </main>
 </body>

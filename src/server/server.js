@@ -1,93 +1,123 @@
+// Enable dotenv for credential management
 const dotenv = require('dotenv');
 dotenv.config();
+/* Dependencies */
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const fetch = require('node-fetch');
 const path = require('path');
+// Express to run server and routes
 const { response } = require('express');
 
-
+// Start up an instance of app
 const app = express();
+// Cors for cross origin allowance
 app.use(cors());
+// Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Spin up the server
 const port = 8082;
 const server = app.listen(port, function () {
   console.log(`Travel App running on localhost: ${port}!`)
 });
 
+//Initialize the main project folder
 app.use(express.static('dist'));
+// app.use(express.json({ limit: '5mb' }));
 
 app.get('/', function (req, res) {
   res.sendFile('dist/index.html')
 });
 
 // Create endpoint for API POST data
-app.post('/destination', function (req, res) {
-  const geoBaseURL = 'http://api.geonames.org/searchJSON?q=';
+app.post('/destination', async (req, res) => {
+  const weatherKey = process.env.WEATHERBIT_API_KEY;
   const geoNamesKey = process.env.GEONAMES_API_KEY;
-  const weatherKey = process.env.WEATHERBIT_API_KEY;
-  console.log(`Your API Key is ${geoNamesKey}`);
-  const cityName = req.body.cityName;
-  const params = `${cityName}&maxRows=1&${geoNamesKey}`;
-  const getLocation = geoBaseURL + params;
-
-  fetch(getLocation, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/JSON',
-    }
-  }).then((response) => {
-    return response.json();
-  }).then((data) => {
-    console.log("Response from GeoNames (server-side)", data);
-    res.send({
-      geonames: data.geonames[0] // Returns location data
-    })
-  })
-  // const forcastWeatherURL = `https://api.weatherbit.io/v2.0/forcasts/daily?lat=${data.geonames.lat}&lon=${data.geonames.lng}&key=${weatherKey}`;
-  // fetch(forcastWeatherURL, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/JSON',
-  //   }
-  // }).then((response) => {
-  //   return response.json();
-  // }).then((data) => {
-  //   console.log("Response from Weatherbit (server-side)", data);
-  //   res.send({
-  //     forcastWeather: response.data
-  //   })
-  // })
-})
-
-app.post('/weather', function (req, res) {
+  const pixabayKey = process.env.PIXABAY_API_KEY;
+  const geoBaseURL = 'http://api.geonames.org/searchJSON?q=';
   const weatherBaseURL = 'http://api.weatherbit.io/v2.0/forcasts/daily?';
-  const weatherKey = process.env.WEATHERBIT_API_KEY;
-  console.log(`Your Weatherbit API Keyis ${weatherKey}`);
-  // const cityState = req.body.cityState;
-  // const params = `${cityState}&key=${weatherKey}`;
-  const latitude = req.body.lat;
-  const longitude = req.body.lon;
-  const weatherParams = `lat=${latitude}&lon=${longitude}&key=${weatherKey}`;
-  const getWeather = weatherBaseURL + weatherParams;
+  console.log(`Your geo API Key is ${geoNamesKey}`);
+  console.log(`Your weather API Key is ${weatherKey}`);
+  let cityName = req.body.cityName;
+  let params = `${cityName}&maxRows=1&${geoNamesKey}`;
+  const getLocation = geoBaseURL + params;
+  // Setup empty JS object to act as endpoint for all routes
+  let data = {};
 
-  fetch(getWeather, {
+  await fetch(getLocation, {
     method: 'POST',
-    mode: 'cors',
     headers: {
       'Content-Type': 'application/JSON',
     }
-  }).then((response) => {
-    return response.json();
-  }).then((data) => {
-    console.log("Response from WeatherBit (server-side)", data);
-    res.send({
-      forcastWeather: data.data[0]
-    })
-  });
-})
+  })
+    .then(response => response.json())
+    .then(response => {
+      console.log('response from GeoNames (server-side)', response)
+      const { lat, lng, toponymName, countryName } = response.geonames[0];
+      data = {
+        cityName: toponymName,
+        countryName,
+        lat,
+        lng
+      }
+    }).catch(error => console.log('error', error));
 
 
+  const currentWeatherUrl = `https://api.weatherbit.io/v2.0/current?lat=${data.lat}&lon=${data.lng}&key=${weatherKey}`;
+
+  await fetch(currentWeatherUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/JSON',
+    }
+  })
+    .then(response => response.json())
+    .then(response => {
+      console.log('response from WeatherBit (server-side)', response)
+      const { temp, percip } = response.data[0];
+      data = {
+        ...data,
+        currentWeather: {
+          temp,
+          percip
+        }
+      }
+    }).catch(error => console.log('error', error));
+
+
+  const pixabayCitySearch = `&q=${data.cityName}&orientation=horizontal&image_type=photo`;
+  const pixabayCountrySearch = `&q=${data.countryName}&orientation=horizontal&image_type=photo`
+  let pixabayUrl = `https://pixabay.com/api/?key=${pixabayKey}${pixabayCitySearch}`;
+  let imageUrl = '';
+
+  await fetch(pixabayUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/JSON',
+    }
+  })
+    .then(response => response.json())
+    .then(response => {
+      console.log('response from Pixabay (server-side)', response)
+      imageUrl = response.hits[0].webformatURL;
+    }).catch(error => console.log('error', error));
+
+  if (imageUrl === '') {
+    let pixabayUrl = `https://pixabay.com/api/?key=${pixabayKey}${pixabayCountrySearch}`;
+    await fetch(pixabayUrl)
+      .then(response => response.json())
+      .then(response => {
+        console.log('response from Pixabay (server-side) -> imageurl')
+        imageUrl = response.hits[0].webformatURL;
+      })
+      .catch(error => console.log('error', error));
+  }
+  data = {
+    ...data,
+    imageUrl
+  }
+  res.send(data);
+});
