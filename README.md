@@ -64,3 +64,6 @@ PIXABAY_API_KEY=***************
 8. Enter name of city and date in their respective fields.
 
 9. Hit submit.
+
+## Additional Functionality
+* Pull in an image for the country from Pixabay API when the entered location brings up no results (good for obscure localities).
